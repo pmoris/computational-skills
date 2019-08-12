@@ -1,0 +1,825 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Avoiding common annoyances in bioinformatics</title>
+		<meta name="author" content="Pieter Moris">
+
+		<!-- <link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css"> -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section style="font-size: 0.7em;">
+					<h1>1111 rules for avoiding misery in bioinformatics</h1>
+					<h3>or a bunch of stupid things I've done</h3>
+					<h3>or an excuse to spout my opinion and act smug</h3>
+					<p><medium>Created by Pieter Moris</medium></p>
+				</section>
+
+				<!-- GIT -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>Use version control</h1>
+						<h4 class="fragment visible">Preferably <code>git</code></h4>
+					</section>
+					<!-- <section>
+						<h4>Use version control - preferably <code>git</code>.</h4>
+						<p>Nuff' said.</p>
+					</section> -->
+
+					<!-- <section>
+						<p>Why?</p>
+						</br>
+						<span class="fragment">
+							<img  class="fragment visible" data-src="assets/why-you-need-vcs.jpg" alt="version-control-r-files">
+						</br>
+							<ul style="font-size: 0.7em">
+								<li class="fragment visible">Safety</li>
+								<li class="fragment visible">History</li>
+								<li class="fragment visible">Organization</li>
+							</ul>
+						</span>
+					</section> -->
+
+					<section>
+						<p>Why?</p>
+
+						<div class="column_container">
+							<div class="col">
+								<img  class="fragment visible" data-src="assets/why-you-need-vcs.jpg" alt="version-control-r-files">
+							</div>
+
+							<div class="col">
+								<ul style="vertical-align: middle;">
+									<li class="fragment visible">Safety</li>
+									<li class="fragment visible">History</li>
+									<li class="fragment visible">Organization</li>
+								</ul>
+							</div>
+						</div>
+
+						<!-- Notes: use it so you don't end up with this nonsense. It's safe because you'll be able to re-trace your steps and get a free backup. You get an overview of your history and attempts, because you sure as hell won't remember what you were doing two weeks from now. It also allows you to be better organized, by avoiding these redundant naming schemes and making you think about which files should be available and where they should be located. -->
+					</section>
+
+					<section>
+						<p>How?</p>
+						<ul class="fragment">
+							<li style="padding: 10px;">My git internals tutorial: <a href=https://pmoris.github.io/git-gud>https://pmoris.github.io/git-gud</a></li>
+							<li style="padding: 10px;">Various other resources and tutorials are collected in my computational skill set primer.</li>
+						</ul>
+					</section>
+					<section style="font-size: 0.65em">
+						<h4>Beware git GUIs</h4>
+						<p><span class="emphasized">Use the command line</span> as much as possible for interacting with <code>git</code> and only rely on a GUI for visualisation of history and file diffs.</p>
+						</br>
+						<p class="fragment">Reason: GUIs sometimes hide steps, use slightly different naming conventions or try to be smart and automate certain steps, which can cause a lot of confusion, anxiety and/or horror.</p>
+						<p class="fragment">Or they just choke completely after a <code>git rebase -i</code>.</p>
+						<div style="font-size: 0.9em" class="fragment">
+						</br>
+						<p>Read more in the primer, important aspects include: </p>
+						<ul>
+							<li>How to generate SSH keys and how to use them in other git-aware tools.</li>
+							<li>Use a private commit e-mail address and don't accidentally overwrite it.</li>
+							<li><code>git clone</code> is just a way to download a repository to your computer.</li>
+						</ul>
+						</div>
+					</section>
+
+					<!-- <section data-menu-title="git SSH vs HTTPS"> -->
+					<section>
+						<h4>These are not the same!</h4>
+						<img style="border: 0;" height="100%" data-src="assets/ssh-https.png" alt="ssh-https-github">
+						<p>GitHub recommends HTTPS, but SSH allows you to use your SSH key instead of requiring login credentials for each remote action.</p>
+						<ul style="font-size: 0.6em">
+							<li><a href="https://help.github.com/en/articles/which-remote-url-should-i-use">https://help.github.com/en/articles/which-remote-url-should-i-use</a></li>
+							<li><a href="https://stackoverflow.com/questions/11041729/why-does-github-recommend-https-over-ssh">https://stackoverflow.com/questions/11041729/why-does-github-recommend-https-over-ssh</a></li>
+						</ul>
+					</section>
+					<section style="font-size: 0.8em">
+					<!-- <section style="font-size: 0.8em" data-menu-title="GitKraken"> -->
+						<h3>Side note for those that use <span style="color: #a6e22e">GitKraken</span>: </h3>
+						<ul>
+							<li>GitKraken account != GitHub account != git username</li>
+							<li>Profile overwrites your git e-mail <code>git config --list</code></li>
+						</ul>
+					</section>
+				</section>
+
+				<!-- EXCEL -->
+				<section>
+					<section data-menu-title="Spreadsheet software woes">
+						<h2>Be careful when using <span style="color: #a6e22e">Excel</span> or equivalents</h2>
+						<img class="stretch" data-src="assets/excel.png" alt="excel">
+					</section>
+
+					<section style="font-size: 0.4em">
+						<img class="stretch" data-src="assets/gene-names-dates.png" alt="gene-names-dates">
+
+						<blockquote>
+							Mistaken Identifiers: Gene name errors can be introduced inadvertently when using Excel in bioinformatics (Zeeberg et al., 2004. <a href="https://doi.org/10.1186/1471-2105-5-80">https://doi.org/10.1186/1471-2105-5-80</a>)
+						</blockquote>
+
+						<blockquote>
+							Gene name errors are widespread in the scientific literature (Ziemann et al., 2016. <a href="https://doi.org/10.1186/s13059-016-1044-7">https://doi.org/10.1186/s13059-016-1044-7</a>)
+						</blockquote>
+					</section>
+
+					<section style="font-size: 0.6em">
+						<img class="stretch" data-src="assets/encoding.png" alt="encoding">
+						<p class="fragment">Other lessons to learn: encapsulate fields (<code>"entry-filled with, separators you use 	to separate; columns"</code>) and mind character encoding (almost always opt for <code>UTF-8</code>).</p>
+
+						<p class="fragment">Similar issues can crop up when importing data into <code>R</code> or <code>pandas</code> dataframes, so be explicit and specify the encoding!</p>
+					</section>
+				</section>
+
+				<!-- HOTKEYS -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>Familiarise yourself with hotkeys and shortcuts ⌨</h1>
+					</section>
+					<!-- <section data-background-transition="zoom" data-background="#191919">
+						<h1 style="color: #a6e22e">Familarise yourself with hotkeys and shortcuts</h1>
+					</section> -->
+					<!-- <section data-background-transition="zoom" data-background="#466111">
+						<h1>Familarise yourself with hotkeys and shortcuts</h1>
+					</section> -->
+
+					<section>
+						<p>Seeing other people navigate their computer sometimes triggers a deep silent rage within me.</p>
+						<img class="stretch" data-src="assets/screaming.gif" alt="screaming">
+					</section>
+
+					<section style="font-size: 0.9em">
+						<h3>Notorious examples include:</h3>
+					</br>
+						<ul>
+							<li>Not using <span class="emphasized">tab-completion</span> whenever possible (and mistyping file paths as a consequence).</li>
+							<li>Re-typing commands in a terminal instead of using the <span class="emphasized">history</span> <span style="font-size: 70%">(<code>↑</code> key or history search function <code>ctrl + r</code>)</span>.</li>
+							<li>Using the mouse and GUI buttons to run code in notebooks or IDEs.</li>
+						</ul>
+					</section>
+
+					<section>
+						<blockquote>Spend 10 minutes now to save many more in the future.</blockquote>
+
+					</br>
+
+						<p class="fragment">Especially important in your <span class="emphasized">terminal</span>, <span class="emphasized">file manager</span> and <span class="emphasized">IDE</span> or <span class="emphasized">text editor</span>.</p>
+					</section>
+
+					<section style="font-size: 0.75em">
+						<h4>Additional examples and resources</h4>
+
+						<ul>
+							<li>Your <span class="emphasized">terminal</span> has dozens of neat shortcuts, like moving the cursor to the start/end of a line, deleting whole words, etc.</li>
+							<li class="fragment">R and Jupyter <span class="emphasized">notebooks</span> have hotkeys to create cells, switch between cell types, run the current/above/below/all cells</li>
+							<li class="fragment">In RStudio, use <code>shift + arrows/home/end</code> <small>(or even the mouse)</small> to select lines and <code>ctrl + return</code> to run them.</li>
+							<li class="fragment">Use automatic docstring <span class="emphasized">generators</span>. <span style="font-style: italic">You are writing docstrings, aren't you?</span></li>
+							<li class="fragment">Decide on a code <span class="emphasized">formatter + linter</span> and use it consistently, most editors have this built-in or provide plug-ins (e.g. VS code + <code>black</code> and <code>flake8</code>).</li>
+						</ul>
+
+						<p>Check out the primer for more resources on this topic.</p>
+					</section>
+				</section>
+
+				<!-- COPYING CODE -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>Be careful when copying code from the web ✂📋</h1>
+					</section>
+
+					<section>
+						<pre><code class="sh" data-trim data-noescape>
+								pieter  🐍 base  ~  sudo apt install –y cowsay
+								[sudo] password for pieter:
+								Reading package lists... Done
+								Building dependency tree
+								Reading state information... Done
+								E: Unable to locate package –y
+						</code></pre>
+
+						<p class="fragment" style="font-size: 0.7em"><code>—</code> (em dash) VS <code>–</code> (en dash) VS <code>-</code> (hyphen ~= hyphen-minus)</p>
+
+					</br>
+
+						<pre class="fragment"><code class="sh" data-trim data-noescape>
+							  pieter  🐍 base  ~  echo “something profound”
+							“something profound”
+							 pieter  🐍 base  ~  echo "something else"
+							something else
+						</code></pre>
+
+						<span class="fragment" style="font-size: 0.7em">
+							<p>curly or smart and straight or vertical quotation marks</p>
+							<p><code>“ ”</code> VS <code>" "</code></p>
+							<p><code>‘ ’</code> VS <code>' '</code></p>
+						</span>
+					</section>
+				</section>
+
+				<!-- TERMINAL TIPS -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>Terminal tips <i class="fas fa-terminal"></i></h1>
+					</section>
+					<section>
+						<ul>
+							<li>Increase the length of your bash history: <code>echo "HISTFILESIZE=100000" > ~/.bashrc</code></li>
+							<li class="fragment">Create aliases or save short scripts.</li>
+						</ul>
+					</section>
+					<section>
+						<h4>What is the <span class="emphasized">PATH</span>?!‽‽‽</h4>
+					<span class="fragment" style="font-size: 0.8em">
+						<p>List of directories where the shell searches for executable files.</p>
+						<div class="column_container">
+							<div style="font-size: 0.55em;" class="fragment" class="col">
+								<h6>Windows</h6>
+
+								<img width="65%" data-src="assets/windows-path.jpg" alt="path-windows">
+							</div>
+
+							<div style="font-size: 0.55em; margin-left: 50px !important; text-align:left !important" class="col">
+								<span class="fragment">
+								<h6>Unix</h6>
+								<code class="shell" data-trim>
+										$ echo $PATH <br>
+										/home/pieter/.nvm/versions/node/v10.5.0/bin:/home/pieter/.rbenv/shims:/home/pieter/.rbenv/bin:/opt/pycharm/bin:/home/pieter/miniconda3/bin:/home/pieter/miniconda3/condabin:/home/pieter/bin:/home/pieter/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/jvm/java-10-oracle/bin:/usr/lib/jvm/java-10-oracle/db/bin:/usr/lib/jvm/java-11-openjdk-amd64/bin:/home/pieter/miniconda3/envs/tools/bin
+								</code>
+								</span>
+								<br><br>
+								<code class="fragment">
+									echo 'export PATH="$PATH:/home/pieter/miniconda3/envs/tools/bin"' > .bash_rc
+								</code>
+							</div>
+						</div>
+
+						<ul style="font-size: 0.5em">
+							<li><a href="https://astrobiomike.github.io/unix/modifying_your_path">https://astrobiomike.github.io/unix/modifying_your_path</a></li>
+							<li><a href="https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them">https://superuser.com/questions/284342/what-are-path-and-other-environment-variables-and-how-can-i-set-or-use-them</a></li>
+						</ul>
+					</span>
+					</section>
+					<section>
+						<p>You can use the following commands to find out where a command is located:</p>
+
+						<pre class="stretch"><code class="sh" data-trim data-noescape>
+							 $ which python # only works if binary is included in $PATH
+							/home/pieter/miniconda3/bin/python
+							 $ conda activate tools
+							 $ which python
+							/home/pieter/miniconda3/envs/tools/bin/python
+
+							 $ whereis python # searches hard-coded paths regardless of $PATH
+							python: /usr/bin/python3.6 /usr/bin/python3.5 /usr/bin/python3.6m-config /usr/bin/python3.6m /usr/bin/python3.5m /usr/bin/python3.6-config /usr/bin/python2.7 /usr/bin/python /usr/lib/python3.6 /usr/lib/python3.5 /usr/lib/python2.7 /usr/lib/python3.7 /etc/python3.6 /etc/python3.5 /etc/python2.7 /etc/python /usr/local/lib/python3.6 /usr/local/lib/python3.5 /usr/local/lib/python2.7 /usr/include/python3.6 /usr/include/python3.6m /usr/include/python2.7 /usr/share/python /home/pieter/miniconda3/envs/tools/bin/python3.7 /home/pieter/miniconda3/envs/tools/bin/python3.7m /home/pieter/miniconda3/envs/tools/bin/python3.7m-config /home/pieter/miniconda3/envs/tools/bin/python3.7-config /home/pieter/miniconda3/envs/tools/bin/python /usr/share/man/man1/python.1.gz
+
+							 $ echo alias vpn=openconnect vpn.uantwerpen.be > .bash_aliases
+							 $ type vpn # searches environment including $PATH and aliases (or "command -v")
+							vpn is aliased to `sudo openconnect vpn.uantwerpen.be'
+						</code></pre>
+
+						<p>cf. version managers</p>
+					</section>
+
+<!--
+					<section>
+						<h4>How not do to it</h4>
+						<pre><code class="sh" data-trim data-noescape>
+							$ pip install redis
+							$ sudo apt install python2
+							$ bash ./install_conda.sh
+							$ conda install
+							$ R
+							$ install.packages
+						</code></pre>
+						<p>Learn how different methods of install work behind the scenes.</p>
+						SEE INSTALLATION MANAGEMENT PYTHON/R
+					</section> -->
+
+
+
+
+
+					<section>
+						<img width="60%" data-src="assets/bash-windows.jpg" alt="bash-windows">
+					</section>
+					<section style="font-size: 0.5em">
+						<p>Windows Command Prompt and Powershell are not the same as a Unix-shell, although they have their uses.</p>
+						<p>Install the Windows Subsystem for Linux on W10 <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a>, rather than running a virtual machine (for most scenarios).</p>
+						<p>Caveat: things like Python are <span class="emphasized">not automatically shared</span> between Windows and the Subsystem.</p>
+						<p>Even GUI apps work if you install an X server!</p>
+						<p>Can even be linked to your IDE e.g. VS Code: <a href="https://medium.com/@janelgbrandon/a-guide-for-using-wsl-for-development-d135670313a6">https://medium.com/@janelgbrandon/a-guide-for-using-wsl-for-development-d135670313a6</a> & <a href="https://code.visualstudio.com/docs/remote/wsl">https://code.visualstudio.com/docs/remote/wsl</a> as if it's a remote server</p>
+						<p>For the full write-up, see the primer.</p>
+						<a href="https://askubuntu.com/questions/1051525/windows-subsystem-for-linux-wsl-what-cant-i-do-with-the-ubuntu-application-f">https://askubuntu.com/questions/1051525/windows-subsystem-for-linux-wsl-what-cant-i-do-with-the-ubuntu-application-f</a>
+					</section>
+
+					<section>
+						<img width="60%" data-src="assets/exit-vim.jpeg" alt="bash-windows">
+					</section>
+
+					<section>
+						<h2>Learn how to exit vim</h2>
+
+						<code style="text-decoration: line-through;">Press the X button</code><br>
+						<span style="text-decoration: line-through;"><code>$ killall -9 vim</code></span><br>
+						<code data-noescape> &lt;esc&gt;:wq&lt;enter&gt;</code><br>
+						<code>Shift-Z-Z</code>
+
+						<p style="font-size:0.6em"><a href="https://stackoverflow.blog/2017/05/23/stack-overflow-helping-one-million-developers-exit-vim/">https://stackoverflow.blog/2017/05/23/stack-overflow-helping-one-million-developers-exit-vim/</a></p>
+
+					</section>
+
+					<section>
+						<h2>Learn (at least) a few `Bash` (or `PowerShell`) tools</h2>
+
+						<p>Grep (and by extension regular expressions</p> can help when your IDE decides to be an idiot. (image of Eclipse )
+						<img class="stretch" data-src="assets/grep-ide.png" alt="ide-vs-grep">
+
+
+						counting lines
+
+						head or tail
+
+						checking columns
+
+						editing line-by-line sed
+
+						low memory editing vim
+					</section>
+
+					<section>
+						<h4>Spend some time on a bash primer</h4>
+						<pre>
+							<code class="sh" data-trim data-noescape>
+								 $ rsync --help | grep "-z"
+								Usage: grep [OPTION]... PATTERN [FILE]...
+								Try 'grep --help' for more information.
+								 $ rsync -h | grep "\-z"
+								-z, --compress              compress file data during the transfer
+								 $ rsync -h | grep '\-z'
+								-z, --compress              compress file data during the transfer
+									$ rsync --help | grep -- -z
+								-z, --compress              compress file data during the transfer
+
+							</code>
+						</pre>
+					</section>
+
+					<section>
+						<h4>Things worth your time</h4>
+
+						<ul style="font-size: 0.7em">
+							<li>File permissions: <a href="https://linuxjourney.com/lesson/file-permissions">https://linuxjourney.com/lesson/file-permissions</a></li>
+							<li>File redirection: <a href="https://catonmat.net/bash-one-liners-explained-part-three">https://catonmat.net/bash-one-liners-explained-part-three</a> e.g. <code>foo >outfile1 2>&1 >outfile2</code> (<a href="https://stackoverflow.com/questions/818255/in-the-shell-what-does-21-mean">see SO</a>)</li>
+							<li>Regular expressions and <code>grep / sed / awk</code>: <a href="https://regexone.com/">https://regexone.com/</a></li>
+							<li><a href="https://mywiki.wooledge.org/BashGuide">https://mywiki.wooledge.org/BashGuide</a></li>
+							<li><a href="https://mywiki.wooledge.org/BashPitfalls">https://mywiki.wooledge.org/BashPitfalls</a> (even just number 1 is useful)</li>
+							<li><a href="https://zwischenzugs.com/2018/01/06/ten-things-i-wish-id-known-about-bash/">https://zwischenzugs.com/2018/01/06/ten-things-i-wish-id-known-about-bash/</a></li>
+						</ul>
+					</section>
+
+					<!-- MENTION TEE? -->
+					<!-- counting lines
+
+					head or tail
+
+					checking columns
+
+					editing line-by-line sed
+
+					low memory editing vim -->
+				</section>
+
+				<!-- SSH TIPS -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>SSH tips 🔑 </h1>
+					</section>
+					<section>
+						<h4>Use <code>~/.ssh/config</code></h4>
+						<pre>
+							<code class="sh" data-trim data-noescape>
+								Host calcua
+								HostName login-leibniz.uantwerpen.be
+								#Port 22000
+								User vsc20380
+								IdentityFile ~/.ssh/id_rsa
+							</code>
+						</pre>
+
+						<pre>
+							<code class="sh" data-trim data-noescape>
+								$ ssh calcua
+								$ rsync -avhzP *.tar.gz calcua:/scratch/antwerpen/203/vsc20380/pmc/
+							</code>
+						</pre>
+					</section>
+
+					<section>
+						<h4>When working on a remote server over SSH (or PuTTY), you can keep jobs alive after disconnecting:</h4>
+
+						<ul style="font-size: 0.8em">
+							<li class="fragment">After already starting a process: <code>^Z</code> followed by <code>bg %1</code> and <code>disown (-h) %1</code></li>
+							<li class="fragment"><code>nohup bash my_amazing_script.sh > output.log 2>&1 &</code> (cf. redirection)</li>
+							<li class="fragment"><code style="text-decoration: line-through">screen</code> / <code>tmux</code></li>
+						</ul>
+
+						<p>Process needs to be immune to SIGHUP.</p>
+
+						<ul style="font-size: 0.5em">
+							<li><a href="https://serverfault.com/questions/311593/keeping-a-linux-process-running-after-i-logout">https://serverfault.com/questions/311593/keeping-a-linux-process-running-after-i-logout</a></li>
+							<li><a href="https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and">https://unix.stackexchange.com/questions/3886/difference-between-nohup-disown-and</a></li>
+							<li><a href="https://unix.stackexchange.com/questions/484276/do-disown-h-and-nohup-work-effectively-the-same">https://unix.stackexchange.com/questions/484276/do-disown-h-and-nohup-work-effectively-the-same</a></li>
+							<li><a href="https://unix.stackexchange.com/questions/57166/disown-wont-take-h-option">https://unix.stackexchange.com/questions/57166/disown-wont-take-h-option</a></li>
+						</ul>
+					</section>
+
+					<section style="font-size: 0.85em">
+						<p>If you cannot connect to a server using SSH keys (and <code>ssh -vvv</code> is cryptic), check your <span class="emphasized">file permissions</span>.</p>
+					</br>
+						<ul>
+							<li>.ssh directory: 700 (<code>drwx------</code>)</li>
+							<li>public key (.pub file): 644 (<code>-rw-r--r--</code>)</li>
+							<li>private key (id_rsa): 600 (<code>-rw-------</code>)</li>
+							<li>home directory should not be writeable by the group or others, at most 755 (<code>drwxr-xr-x</code>)</li>
+						</ul>
+					</section>
+
+					<section>
+						<p>
+						Windows users: be aware than when you create <span class="emphasized">keys in WSL</span> the keys won't automatically be picked up by other Windows programs (PuTTY, git GUIs, etc.)
+						</p>
+					</section>
+				</section>
+
+				<!-- PYTHON DEBUGGING -->
+				<section>
+					<section data-menu-title="Debugging">
+						<img class="stretch" data-src="assets/python-debug.jpg" alt="python-debug">
+					</section>
+					<!-- <section data-background-transition="zoom" data-background="#a6e22e"> -->
+					<section>
+						<h4>When you have more than a few <code>print()</code> statements in your Python code, it's time to use a proper <span class="emphasized">debugger</span>.</h4>
+
+						<pre class="fragment"><code class="python" data-trim>
+							import pdb # or import ipdb as pdb
+
+							# insert this line where you want a breakpoint
+							pdb.set_trace()
+						</code></pre>
+
+						<p class="fragment">Or use a solution built into your IDE e.g. PyCharm.</p>
+<br>
+						<ul class="fragment" style="font-size: 0.5em">
+							<li><a href="https://realpython.com/python-debugging-pdb/">https://realpython.com/python-debugging-pdb/</a></li>
+							<li><a href="https://github.com/spiside/pdb-tutorial">https://github.com/spiside/pdb-tutorial</a></li>
+							<li>Changing breakpoint statement: <a href="https://www.andreagrandi.it/2018/10/16/using-ipdb-with-python-37-breakpoint/">https://www.andreagrandi.it/2018/10/16/using-ipdb-with-python-37-breakpoint/</a></li>
+						</ul>
+					</section>
+					<!-- R equivalents? -->
+				</section>
+
+				<!-- Managing python -->
+				<section>
+					<section data-menu-title="Managing Python">
+						<h2>Managing Python <i class="fab fa-python"></i></h2>
+						<img class="stretch" style="border: 0px" data-src="assets/python_environment.png" alt="python-hell">
+					</section>
+					<section>
+						<h3>Use <code>conda</code></h3>
+						<ul style="font-size: 0.8em">
+							<li class="fragment" >Actually, use <code>miniconda</code> to avoid bloat.</li>
+							<li class="fragment" >Lives side-by-side your system-wide Python install, but uses an alias to become the default <code>which python</code></li>
+							<li class="fragment" >Use <code>conda</code> <span class="emphasized">environments</span> to keep projects and specific package versions separated and documented cf. version control.</li>
+							<li class="fragment" >Use <code>virtualenv</code> when deploying code on a remote server or docker container.</li>
+						</ul>
+						<p class="fragment" style="font-size: 0.6em">Check the documentation for a list of command commands: creating/listing/exporting environments, installing/removing packages, etc. <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html">https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html</a></p>
+					</section>
+					<section>
+						<h3><code>conda</code> and <code>pip</code> are separate things</h3>
+
+						<p class="fragment" style="font-size: 0.8em">Use <code>conda install</code> by default.</p>
+						<p class="fragment" style="font-size: 0.8em">If a package is missing, check out different channels e.g. <code>conda install --channel forge</code> (bioconda is also nice).</p<>
+						<p class="fragment" style="font-size: 0.8em">If that fails, <span class="emphasized">first install pip inside the conda environment</span>.</p>
+						<p>cf. <code>PATH</code></p> INSERT INTERNAL LINK HERE
+					</section>
+					<section>
+						<h4><code>pip</code> is not installed by default!</h4>
+						<pre><code class="sh" data-trim data-noescape>
+							 $ conda create -n newenv python=3.7
+							......
+							 $ which python
+							/home/pieter/miniconda3/envs/newenv/bin/python
+							 $ which pip
+							/home/pieter/miniconda3/envs/newenv/bin/pip
+
+							 $ conda create -n newerenv
+							......
+							 $ conda activate newerenv
+							 $ which python
+							/usr/bin/python
+							 $ which pip
+							/home/pieter/miniconda3/envs/tools/bin/pip # custom PATH append statement inside my .bashrc
+						</code></pre>
+					</section>
+
+					<section>
+						<h4>Install <code>nb_conda</code> for managing environments inside notebooks</h4>
+
+						<div class="column_container">
+							<div style="vertical-align: top;" class="col">
+								<img width="100%" data-src="assets/nb_conda.png" alt="nb_conda">
+							</div>
+							<div class="col" style="font-size: 0.8em">
+								<p class="fragment">Add <code>nb_conda</code> to whatever environment you want to launch Jupyter notebooks from (I use the base environment).</p>
+								<p class="fragment">Install <code>ipykernel / r-irkernel</code> into any environment you want to use inside notebooks.</p>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>For <code>ruby</code> use <code><a href="https://github.com/rbenv/rbenv">renv</a></code>.</p>
+						<p>For <code>node.js</code> use <code><a href="https://github.com/creationix/nvm">nvm</a></code>.</p>
+					</section>
+				</section>
+
+				<!-- Managing R -->
+				<section data-menu-title="Managing R1">
+					<section data-background-transition="zoom" data-background="#a6e22e" data-menu-title="Managing R">
+						<h1>Managing <i class="fab fa-r-project"></i></h1>
+					</section>
+					<section>
+						<h3>For package management, check out <code>renv</code> and <code>packrat</code>.</h3>
+						<p class="fragment">Don't install packages via your system package manager, only use <code>install.packages()</code>.</p>
+						<p class="fragment"><code>conda</code> can also manage R environments, but might not act nicely with R_LIBS (https://waoverholt.com/conda-and-R/)</p>
+					</section>
+					<section>
+						    `R_LIBS_USER="~/lib/R/library"`
+						default path sometimes requires sudo rights (system-wide install)
+<!--
+						`R_LIBS_USER="~/lib/R/library"`
+
+						The install.packages() and update.packages() functions will then work in directory ~/lib/R/library.
+
+					**NOTE**: http://kbroman.org/pkg_primer/pages/build.html says the file should contain `R_LIBS=` instead.
+
+					https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8
+
+					https://stackoverflow.com/questions/37970555/controversy-of-r-libs-user-path
+					The R_LIBS_USER variable is optional and, if set, will be prepended to the library path (which is displayed by .libPaths()).
+					Check via: `Sys.getenv("R_LIBS_USER")`
+
+					https://community.rstudio.com/t/using-r-and-conda/10960/3
+					https://community.rstudio.com/t/why-not-r-via-conda/9438/4
+					- Using conda, you can force in R location via `install.packages("png", "/home/user/anaconda3/lib/R/library")` https://stackoverflow.com/questions/34705917/conda-how-to-install-r-packages-that-are-not-available-in-r-essentials
+					- `install.packages()` is equivalent to `R CMD INSTALL <PACKAGES…>`, but beware lib location (requires sudo to access default `/usr/local/lib`) https://askubuntu.com/a/931551 also see http://kbroman.org/pkg_primer/pages/build.html
+					- Packages are stored in https://stackoverflow.com/questions/2615128/where-does-r-store-packages -->
+					</section>
+					<section>
+						R setup => use projects to get clean new session
+						Remove remember history, cf. notebooks
+						<!-- ziekenkas bijdrage gluten, aardappelen? -->
+					</section>
+					<section>
+						<h3>Don't start scripts with</h3>
+					</section>
+				</section>
+
+				<!-- Notebooks -->
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e">
+						<h1>Use interactive coding notebooks responsibly 📓</h1>
+					</section>
+
+					<section>
+						<h4>Notebooks (Jupyter and R) are great for: </h4>
+						<ul>
+							<li class="fragment" >Exploration</li>
+							<li class="fragment" >Prototyping</li>
+							<li class="fragment" >Sharing results, visualisation and adding remarks</li>
+						</ul>
+					</section>
+					<section>
+						<h4>But notebooks suffer from: </h4>
+							<ul>
+								<li class="fragment" >Hidden states</li>
+								<li class="fragment" >Out-of-order execution</li>
+								<li class="fragment" >Horrible for sharing code</li>
+							</ul>
+							<br>
+							<p class="fragment">Use them appropriately, for <span class="emphasized">exploration, not reproducing</span>.</p>
+							<p class="fragment">Write functions in separate files or create a local package (see primer).</p>
+							<br>
+						<ul class="fragment" style="font-size: 0.6em">
+							<li>Excellent talk by Joel Grus: <a href="https://www.youtube.com/watch?v=7jiPeIFXb6U">https://www.youtube.com/watch?v=7jiPeIFXb6U</a></li>
+							<li>Thoughts of the amazing author of <code>knitr</code>: <a href="https://yihui.name/en/2018/09/notebook-war/#summary">https://yihui.name/en/2018/09/notebook-war/#summary</a></li>
+						</ul>
+					</section>
+					<section>
+						<p>As a side note, everyone who uses Jupyter Notebooks should check out its JupyterLab and Binder-like cloud solutions. <small>(<a href="https://www.dataschool.io/cloud-services-for-jupyter-notebook/">https://www.dataschool.io/cloud-services-for-jupyter-notebook/</a>)</small></p>
+					</section>
+				</section>
+
+				<!-- unit testing -->
+				<section>
+					<section data-menu-title="Unit tests" style="font-size: 0.52em">
+						<pre><code style="max-height: 100%; max-width: 100%;" data-trim data-noescape>
+							    ,@@@@@@@@@@,,@@@@@@@%  .#&@@@&&.,@@@@@@@@@@,      %@@@@@@%*   ,@@@%     .#&@@@&&.  *&@@@@&(  ,@@@@@@@%  %@@@@@,     ,@@,
+								,@@,    ,@@,      ,@@/   ./.    ,@@,          %@%   ,&@# .&@&@@(   .@@/   ./. #@&.  .,/  ,@@,       %@%  *&@&.  ,@@,
+								,@@,    ,@@&%%%%. .&@@/,        ,@@,          %@%   ,&@# %@& /@@,  .&@@/,     (@@&%(*.   ,@@&%%%%.  %@%    &@#  ,@@,
+								,@@,    ,@@/,,,,    ./#&@@@(    ,@@,          %@@@@@@%* /@@,  #@&.   ./#&@@@(   *(%&@@&. ,@@/,,,,   %@%    &@#  .&&.
+								,@@,    ,@@,      ./,   .&@#    ,@@,          %@%      ,@@@@@@@@@% ./.   .&@# /*.   /@@. ,@@,       %@%  *&@&.   ,,
+								,@@,    ,@@@@@@@% .#&@@@@&/     ,@@,          %@%     .&@#     ,@@/.#&@@@@&/   /%&@@@@.  ,@@@@@@@%  %@@@@@.     ,@@,
+					,*************,,*/(((((//,,*(#%%%%%%%%%%%%%%%#(*,,,****************************************************,*/(((((((((/((((////****/((##%%%%%%
+					,*************,,//((((((//,,*(%%%%%%%%%%%%%%%%%##/*****************************************************,,*/(///(//////****//((##%%%%%%%%%%%
+					,************,,*/(((((((//***/#%%%%%%%%%%%%%%%%%%%#(/***************************************************,*//////////*//((#%%%%%%%%%%%%%%%%%
+					,***********,,*////////////***/##%%%%%%%%%%%%%%%%%%%##(*,***********************************************,,*////////(###%%%%%%%%%%%%%%%%%%%%
+					,**********,,,*/*******//////**/(#%%%%%%%%%%%%%%%%%%%%%#(/**********************************************,,,***/(##%%%%%%%%%%%%%%%%%%%%%%%%%
+					,*********,,,,*************///***/(#%%%%%%%%%%%%%%%%%%%%%%#(/***********************************,****,****/((#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+					,*********,,,***************//****/(##%%%%%%%%%%%%%%%%%%%%%%##//**************//////////////////////((#####%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(
+					,********,,,,***********************/(#%%%%%%%%%%%%%%%%%%%%%%%##################%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(/
+					,*******,..,***********************,,*/##%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%###((//
+					,*******,.,,***********************,,,,*(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(//**//
+					,******,.,,,************************,,,,*/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(//*******
+					,*****,,,,,********,***,,,,,,,,,,,,*,,,,,,*/(######%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(/**********
+					,*****,..,*******,,,,,,,,,,,,,,,,,,,,,,*,,,,*///((#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%###(/************
+					,*****,,,*******,,,,,*,,,,,,,,,,,,,,,,,****,,,*/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#######(//**************
+					,****,.,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,/(%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#((//******************
+					,***,..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,..,,,,,,,*(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(/*******************
+					,**,,.,,,,,,,,,,,,,,,,,,,,,,,,,,.......,,,,,,/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#####%%%%%%%%%%%%%%%%#(/******************
+					,**,..,,,,,,,,,,,,,,,,,,,,,,,,,......,,,*,,,*(#%%%%%%%%##(((/(##%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(((/*/((#%%%%%%%%%%%%%%#(/*****************
+					,*,..,,,,,,,,,,,,,,,,,,,,,,,,,,,.....,,**,,*/#%%%%%%%##((((*,**/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%##((##/,,,*(#%%%%%%%%%%%%%%#(*****************
+					.*,.,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,*****,,,/(%%%%%%%%#(//(#/,..*/#%%%%%%%%%%%%%%%%%%%%%%%%%%%#(//(#/,..,/(#%%%%%%%%%%%%%%#/*****///////////
+					.,..,,,,,,,,,,,,,,,,,,,,,,,,,,*,,*******,,,(#%%%%%%%%#(*,,,....,/#%%%%%%%%%%%%%%%%%%%%%%%%%%%#(*,,,....,/(#%%%%%%%%%%%%%%#(*,**////////////
+					.,..,,,,,,,,,...........,,,,,,*,********,,*(#%%%%%%%%%#(/*,,...,/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(/*,,..,*/##%%%%%%%%%%%%%%%#(***////////////
+					...,,,,,,,................,,*,**********,,/#%%%%%%%%%%%%#((////((#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##((///(#%%%%%%%%%%%%%%%%%%(/**////////////
+					..,,,,,,.................,,,**********,,*(#%%%%%%%%%%%%%%%%%%#%%%%%%%%#((///((#%%%%%%%%%%%%%%%%%%%%%#%%%%%%%%%%%%%%%%%%%%%#/**////////////
+					.,,,,,,,,.................,,***********,,/(####%%%%%%%%%%%%%%%%%%%%%%%%#(/*,,,*(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(/*////////////
+					.,***,,,,,,..............,,,**********,..,***//((##%%%%%%%%%%%%%%%%%%%%%%%##((##%%%%%%%%%%%%%%%%%%%%%%%%%##(((((((((###%%%%%#/**///////////
+					.*****,,,,,,,,,,,,,,,,,,,*************,..,*******/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##///*//////((#%%%%%#(**///////////
+					.****************/******/***////*****,.,*///////**/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(////////////(#%%%%%#/**//////////
+					.***********************/////*******,..,*//////////(#%%%%%%%%%%%%%%%%%%%%##########%%%%%%%%%%%%%%%%%%%%#(///////////*/(#%%%%%#(***/////////
+					.************************///********,..,*//////////#%%%%%%%%%%%%%%%%%%#(//*****///(((##%%%%%%%%%%%%%%%%#(///////////**/##%%%%##/***////////
+					.***********************************,.,,***///////(#%%%%%%%%%%%%%%%%#(/*,,,*//((((////(#%%%%%%%%%%%%%%%#((////////////(#%%%%%%#(*********//
+					,***********,,,*,,*,,**************,,,*//******//(#%%%%%%%%%%%%%%%%%#(*,,*/(((#####(((((#%%%%%%%%%%%%%%%##///////////(#%%%%%%%%#(***///////
+					,*************,,**,,,************,,,,,/(##((((####%%%%%%%%%%%%%%%%%%%(/**/(((#((((#((//(#%%%%%%%%%%%%%%%%%#(((((((((##%%%%%%%%%%#/**///////
+					,******************************,,,,,,,*(#%#%%%%%%%%%%%%%%%%%%%%%%%%%%#(**/((#(#(((#((//(#%%%%%%%%%%%%%%%%%%%%%%%#%#%%%%%%%%%%%%%#(**///////
+					,*************,**************,****,,,,,/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(/*/((((#((((///(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%(/*///////
+					,*************************************,*/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(////////////(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#/**/////*
+					,******////****///////////////////////***/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%####(((((((###%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(********
+					.,*,****///////////////////////////////***/#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#(/*******
+					.,,,,*****//////////////////////////*******(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%##(*******
+					.,,,,,,***********/////////////////********/(#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%(*******
+						</code></pre>
+					</section>
+
+					<section style="font-size: 0.8em">
+						<p>Try to incorporate unit testing into your workflow. </p>
+						<p class="fragment">Even something as simple as an <code>assert</code> statement checking the number of columns after reading a .csv file goes a long way.</p>
+						<p class="fragment">For more information, check out this talk aimed specifically at data scientists (as opposed to software engineers): <a href="https://www.youtube.com/watch?v=0ysyWk-ox-8">https://www.youtube.com/watch?v=0ysyWk-ox-8</a></p>
+					</section>
+				</section>
+
+				<!-- dos2unix -->
+				<section data-menu-title="dos2unix">
+					<p>When sharing files between Windows and Unix systems, use the <code>dos2unix / unix2dos</code> command to convert line breaks (<code>"\r\n" <=> "\n"</code>).</p>
+				</section>
+
+				<!-- Python / coding conventions
+				wout's talk
+				type hinting
+				etc.
+
+				+ project organization => cookie cutters => README for data or workflow managers-->
+
+					<!-- python environments
+					conda != pip
+					nb_conda for kernel switching -->
+
+				<section>
+					<section data-background-transition="zoom" data-background="#a6e22e" data-menu-title="Project organization">
+						<h2>Structure your projects and your code</h2>
+					</section>
+					<section>
+						<p>Go through Wout's presentations and/or the primer.</p>
+					</section>
+					<section style="font-size: 0.8em">
+						<p>Add <span class="emphasized">docstrings</span> to your functions.</p>
+						<p class="fragment">Create <span class="emphasized">functions</span>.</p>
+						<p class="fragment">Be consistent in <span class="emphasized">code style</span> (cf. use a formatter).</p>
+						<p class="fragment">Decide on a sane <span class="emphasized">project directory structure</span>. <small>(e.g. <a href="https://drivendata.github.io/cookiecutter-data-science/">https://drivendata.github.io/cookiecutter-data-science/</a>, <a href="https://community.rstudio.com/t/data-science-project-template-for-r/3230">https://community.rstudio.com/t/data-science-project-template-for-r/3230</a>, <a href="https://www.r-bloggers.com/structuring-r-projects/">https://www.r-bloggers.com/structuring-r-projects/</a>, <a href="https://nicercode.github.io/blog/2013-04-05-projects/">https://nicercode.github.io/blog/2013-04-05-projects/</a>)</small></p>
+						<p class="fragment">For all one-off commands, download sources and general meta-data, create <span class="emphasized">READMEs</span> in the relevant directories.</p>
+						<p class="fragment">For repeated pipelines, use a workflow manager (<code>Make</code> is fine, but more feature-rich variants exist). <small>(e.g. <code>snakemake</code> and <code>nextflow</code>, discussion here: <a href="https://www.biostars.org/p/258436/">https://www.biostars.org/p/258436/</a>)</small></p>
+					</section>
+					<section>
+						<h4>R-specific pointers</h4>
+						<ul>
+							<li>Use (RStudio) projects.</li>
+							<li class="fragment">Never use <code>setwd()!</code></li>
+							<li class="fragment">Do use the <code>here</code> package and create paths relative to the top level of your project.</li>
+							<li class="fragment">Don't preserve your workspace, since previously stored variables can silently mess up your results.</li>
+							<li><small>See: <a href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script"/>https://www.tidyverse.org/articles/2017/12/workflow-vs-script/</a> https://stackoverflow.com/questions/53433955/relative-paths-in-r-how-to-avoid-my-computer-being-set-on-fire https://whattheyforgot.org/project-oriented-workflow.html http://plantarum.ca/code/setwd/ https://malco.io/2018/11/05/why-should-i-use-the-here-package/ </small></li>
+						</ul>
+                        <img class="fragment" width="65%" class="fragment current-visible" data-src="assets/rstudio-workspace.png" alt="rstudio-workspace">
+					</section>
+					<section>
+                        <ul>
+                            <li>pip install -e</li>
+                            https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6
+                            https://towardsdatascience.com/whats-init-for-me-d70a312da583
+                            https://towardsdatascience.com/building-package-for-machine-learning-project-in-python-3fc16f541693
+                            https://realpython.com/absolute-vs-relative-python-imports/
+                            https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html
+                            https://alex.dzyoba.com/blog/python-import/
+                            https://hackernoon.com/pip-install-abra-cadabra-or-python-packages-for-beginners-33a989834975
+
+                            https://stackoverflow.com/questions/22840671/what-is-the-difference-between-importing-python-sub-modules-from-numpy-matplotl
+                            https://stackoverflow.com/questions/16475129/clean-name-space-and-init-py
+                            https://stackoverflow.com/questions/13093665/python-import-statement-semantics
+                            https://stackoverflow.com/questions/19989179/modules-expose-imported-packages
+							<li class="fragment">Don't preserve your workspace, since previously stored variables can silently mess up your results.</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<h1>Just use a password manager already</h1>
+				</section>
+
+				<section>
+					<h1>And Zotero for managing your literature</h1>
+				</section>
+
+				<!-- <section>
+					<section>
+						<h1>My setup recommendations</h1>
+					</section>
+					<section>
+						vs studio screenshot
+					</section>
+					<section>
+						black formatter
+					</section>
+					<section>
+						rstudio editor
+					</section>
+					<section>
+						git command line
+					</section>
+				</section> -->
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				viewDistance: 3,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					// { src: 'plugin/toolbar/toolbar.js' },
+					{ src: 'plugin/reveal.js-menu/menu.js' }
+				],
+				menu: {
+					titleSelector: 'h1',
+					hideMissingTitles: true,
+					// numbers: true,
+					// markers: true,
+				}
+			});
+		</script>
+	</body>
+</html>
