@@ -243,11 +243,25 @@
 					</section>
 					<section>
 						<ul>
-							<li>Increase the length of your bash history: <code>echo "HISTFILESIZE=100000" > ~/.bashrc</code></li>
-							<li class="fragment">Create aliases or save short scripts.</li>
+							<li>Increase the length of your bash history: <br> <code>echo "HISTFILESIZE=100000" > ~/.bashrc</code></li>
+							<br>
+							<li class="fragment">Or create aliases and save short scripts: <br> <code>echo alias vpn="sudo openconnect vpn.uantwerpen.be" > ~/.bash_aliases</code> </li>
 						</ul>
 					</section>
 					<section>
+						<h4>Be careful when using <code>rm</code>.</h4>
+						<ul style="font-size: 0.8em">
+							<li><code>cd /so/very/deep/in/a/path && rm -rf</code></li>
+							<li>Place dangerous flags after the path: <code>rm /path/to/dir -r</code>. <small>Accidentally pressing enter too soon is less likely to cause harm.</small></li>
+							<li>Tab completion helps!</li>
+							<li><code>touch -- -i</code> in important directories.</li>
+							<li>Use <a href="https://launchpad.net/safe-rm">https://launchpad.net/safe-rm</a></li>
+							<li>Don't use trailing slashes or dot-slash starts in your filepaths: <br> <code>rm -rf ./* # *; rm -rf $FOO/ # $FOO</code></li>
+						</ul>
+
+
+					</section>
+					<section id="path">
 						<h4>What is the <span class="emphasized">PATH</span>?!‽‽‽</h4>
 					<span class="fragment" style="font-size: 0.8em">
 						<p>List of directories where the shell searches for executable files.</p>
@@ -349,23 +363,17 @@
 					</section>
 
 					<section>
-						<h2>Learn (at least) a few `Bash` (or `PowerShell`) tools</h2>
+						<h4>Learn (at least) a few Bash/PowerShell tools</h4>
 
-						<p>Grep (and by extension regular expressions</p> can help when your IDE decides to be an idiot. (image of Eclipse )
+						<p><code>grep</code> (and by extension regular expressions) can help when your IDE decides to be an idiot.</p>
+
 						<img class="stretch" data-src="assets/grep-ide.png" alt="ide-vs-grep">
-
-
-						counting lines
-
-						head or tail
-
-						checking columns
-
-						editing line-by-line sed
-
-						low memory editing vim
 					</section>
-
+					<!-- counting lines
+					head or tail
+					checking columns
+					editing line-by-line sed
+					low memory editing vim -->
 					<section>
 						<h4>Spend some time on a bash primer</h4>
 						<pre>
@@ -373,11 +381,14 @@
 								 $ rsync --help | grep "-z"
 								Usage: grep [OPTION]... PATTERN [FILE]...
 								Try 'grep --help' for more information.
+
 								 $ rsync -h | grep "\-z"
 								-z, --compress              compress file data during the transfer
+
 								 $ rsync -h | grep '\-z'
 								-z, --compress              compress file data during the transfer
-									$ rsync --help | grep -- -z
+
+								 $ rsync --help | grep -- -z
 								-z, --compress              compress file data during the transfer
 
 							</code>
@@ -435,7 +446,7 @@
 					</section>
 
 					<section>
-						<h4>When working on a remote server over SSH (or PuTTY), you can keep jobs alive after disconnecting:</h4>
+						<h4>When working on a remote server over <span class="emphasized">SSH</span> (or <span class="emphasized">PuTTY</span>), you can keep jobs alive after disconnecting:</h4>
 
 						<ul style="font-size: 0.8em">
 							<li class="fragment">After already starting a process: <code>^Z</code> followed by <code>bg %1</code> and <code>disown (-h) %1</code></li>
@@ -443,6 +454,7 @@
 							<li class="fragment"><code style="text-decoration: line-through">screen</code> / <code>tmux</code></li>
 						</ul>
 
+						<span class="fragment">
 						<p>Process needs to be immune to SIGHUP.</p>
 
 						<ul style="font-size: 0.5em">
@@ -451,6 +463,7 @@
 							<li><a href="https://unix.stackexchange.com/questions/484276/do-disown-h-and-nohup-work-effectively-the-same">https://unix.stackexchange.com/questions/484276/do-disown-h-and-nohup-work-effectively-the-same</a></li>
 							<li><a href="https://unix.stackexchange.com/questions/57166/disown-wont-take-h-option">https://unix.stackexchange.com/questions/57166/disown-wont-take-h-option</a></li>
 						</ul>
+						</span>
 					</section>
 
 					<section style="font-size: 0.85em">
@@ -520,7 +533,7 @@
 						<p class="fragment" style="font-size: 0.8em">Use <code>conda install</code> by default.</p>
 						<p class="fragment" style="font-size: 0.8em">If a package is missing, check out different channels e.g. <code>conda install --channel forge</code> (bioconda is also nice).</p<>
 						<p class="fragment" style="font-size: 0.8em">If that fails, <span class="emphasized">first install pip inside the conda environment</span>.</p>
-						<p>cf. <code>PATH</code></p> INSERT INTERNAL LINK HERE
+						<p class="fragment">cf. <a href="#/path">What is <code>PATH</code>?</a></p>
 					</section>
 					<section>
 						<h4><code>pip</code> is not installed by default!</h4>
@@ -538,25 +551,21 @@
 							 $ which python
 							/usr/bin/python
 							 $ which pip
-							/home/pieter/miniconda3/envs/tools/bin/pip # custom PATH append statement inside my .bashrc
+							/home/pieter/miniconda3/envs/tools/bin/pip 
+							# due to custom PATH append statement inside my .bashrc
 						</code></pre>
 					</section>
 
 					<section>
 						<h4>Install <code>nb_conda</code> for managing environments inside notebooks</h4>
-
-						<div class="column_container">
-							<div style="vertical-align: top;" class="col">
-								<img width="100%" data-src="assets/nb_conda.png" alt="nb_conda">
-							</div>
-							<div class="col" style="font-size: 0.8em">
-								<p class="fragment">Add <code>nb_conda</code> to whatever environment you want to launch Jupyter notebooks from (I use the base environment).</p>
-								<p class="fragment">Install <code>ipykernel / r-irkernel</code> into any environment you want to use inside notebooks.</p>
-							</div>
+						<div style="font-size: 0.75em" class="fragment">
+							<img width="100%" data-src="assets/nb_conda.png" alt="nb_conda">
+							<p>Add <code>nb_conda</code> to whatever environment you want to launch Jupyter notebooks from (I use the base environment).</p>
+							<p>Install <code>ipykernel / r-irkernel</code> into any environment you want to use inside notebooks.</p>
 						</div>
 					</section>
 					<section>
-						<p>For <code>ruby</code> use <code><a href="https://github.com/rbenv/rbenv">renv</a></code>.</p>
+						<p>For <code>ruby</code> use <code><a href="https://github.com/rbenv/rbenv">rbenv</a></code>.</p>
 						<p>For <code>node.js</code> use <code><a href="https://github.com/creationix/nvm">nvm</a></code>.</p>
 					</section>
 				</section>
@@ -567,9 +576,19 @@
 						<h1>Managing <i class="fab fa-r-project"></i></h1>
 					</section>
 					<section>
-						<h3>For package management, check out <code>renv</code> and <code>packrat</code>.</h3>
+						<h4>Use projects!</h4>
+						R setup => use projects to get clean new session
+						Remove remember history, cf. notebooks
+						<h3>Don't start scripts with</h3>
+
+					</section>
+					<section>
+						<h4>For package management, check out <code>renv</code>. <small>(or <code>packrat</code>)</small></h4>
 						<p class="fragment">Don't install packages via your system package manager, only use <code>install.packages()</code>.</p>
-						<p class="fragment"><code>conda</code> can also manage R environments, but might not act nicely with R_LIBS (https://waoverholt.com/conda-and-R/)</p>
+						<p class="fragment"><code>conda</code> can also manage R environments, but might not act nicely with R_LIBS <small>(<a href="https://waoverholt.com/conda-and-R/">https://waoverholt.com/conda-and-R/</a>)</small></p>
+					</section>
+					<section>
+						<code>renv</code>: if things go awry, install package into the base environment, purge project renv files and start over.
 					</section>
 					<section>
 						    `R_LIBS_USER="~/lib/R/library"`
@@ -592,14 +611,6 @@
 					- Using conda, you can force in R location via `install.packages("png", "/home/user/anaconda3/lib/R/library")` https://stackoverflow.com/questions/34705917/conda-how-to-install-r-packages-that-are-not-available-in-r-essentials
 					- `install.packages()` is equivalent to `R CMD INSTALL <PACKAGES…>`, but beware lib location (requires sudo to access default `/usr/local/lib`) https://askubuntu.com/a/931551 also see http://kbroman.org/pkg_primer/pages/build.html
 					- Packages are stored in https://stackoverflow.com/questions/2615128/where-does-r-store-packages -->
-					</section>
-					<section>
-						R setup => use projects to get clean new session
-						Remove remember history, cf. notebooks
-						<!-- ziekenkas bijdrage gluten, aardappelen? -->
-					</section>
-					<section>
-						<h3>Don't start scripts with</h3>
 					</section>
 				</section>
 
@@ -634,7 +645,7 @@
 						</ul>
 					</section>
 					<section>
-						<p>As a side note, everyone who uses Jupyter Notebooks should check out its JupyterLab and Binder-like cloud solutions. <small>(<a href="https://www.dataschool.io/cloud-services-for-jupyter-notebook/">https://www.dataschool.io/cloud-services-for-jupyter-notebook/</a>)</small></p>
+						<p>As a side note, everyone who uses Jupyter Notebooks should check out its successor JupyterLab and Binder-like cloud solutions. <small>(<a href="https://www.dataschool.io/cloud-services-for-jupyter-notebook/">https://www.dataschool.io/cloud-services-for-jupyter-notebook/</a>)</small></p>
 					</section>
 				</section>
 
@@ -741,6 +752,11 @@
                         <img class="fragment" width="65%" class="fragment current-visible" data-src="assets/rstudio-workspace.png" alt="rstudio-workspace">
 					</section>
 					<section>
+
+						python imports are weird
+
+						my prefered solution is using local packages
+
                         <ul>
                             <li>pip install -e</li>
                             https://dev.to/codemouse92/dead-simple-python-project-structure-and-imports-38c6
@@ -767,6 +783,12 @@
 				<section>
 					<h1>And Zotero for managing your literature</h1>
 				</section>
+
+				<!-- safe rm https://old.reddit.com/r/linux/comments/c6dcbo/psa_the_rm_utility_accepts_flags_after_the_file/ -->
+
+				<!-- dtypes? -->
+
+				<!-- colordiff -->
 
 				<!-- <section>
 					<section>
