@@ -276,11 +276,11 @@
 				</section>
 				<section>
 					<ul>
-						<li>Increase the length of your bash history: <br> <code>echo "HISTFILESIZE=100000" >
+						<li>Increase the length of your bash history: <br> <code>echo "HISTFILESIZE=100000" >>
 								~/.bashrc</code> and use <code>ctrl + r</code> to search through it.</li>
 						<br>
 						<li class="fragment">Create aliases and save short scripts: <br> <code>echo alias vpn="sudo
-								openconnect vpn.uantwerpen.be" > ~/.bash_aliases</code> </li>
+								openconnect vpn.uantwerpen.be" >> ~/.bash_aliases</code> </li>
 					</ul>
 				</section>
 				<section>
@@ -318,7 +318,7 @@
 								</span>
 								<br><br>
 								<code class="fragment">
-									echo 'export PATH="$PATH:/home/pieter/miniconda3/envs/tools/bin"' > .bash_rc
+									echo 'export PATH="$PATH:/home/pieter/miniconda3/envs/tools/bin"' >> .bash_rc
 								</code>
 							</div>
 						</div>
@@ -346,7 +346,7 @@
 							 $ whereis python # searches hard-coded paths regardless of $PATH
 							python: /usr/bin/python3.6 /usr/bin/python3.5 /usr/bin/python3.6m-config /usr/bin/python3.6m /usr/bin/python3.5m /usr/bin/python3.6-config /usr/bin/python2.7 /usr/bin/python /usr/lib/python3.6 /usr/lib/python3.5 /usr/lib/python2.7 /usr/lib/python3.7 /etc/python3.6 /etc/python3.5 /etc/python2.7 /etc/python /usr/local/lib/python3.6 /usr/local/lib/python3.5 /usr/local/lib/python2.7 /usr/include/python3.6 /usr/include/python3.6m /usr/include/python2.7 /usr/share/python /home/pieter/miniconda3/envs/tools/bin/python3.7 /home/pieter/miniconda3/envs/tools/bin/python3.7m /home/pieter/miniconda3/envs/tools/bin/python3.7m-config /home/pieter/miniconda3/envs/tools/bin/python3.7-config /home/pieter/miniconda3/envs/tools/bin/python /usr/share/man/man1/python.1.gz
 
-							 $ echo alias vpn=openconnect vpn.uantwerpen.be > .bash_aliases
+							 $ echo alias vpn=openconnect vpn.uantwerpen.be >> .bash_aliases
 							 $ type vpn # searches environment including $PATH and aliases (or "command -v")
 							vpn is aliased to `sudo openconnect vpn.uantwerpen.be'
 						</code></pre>
@@ -687,20 +687,43 @@
 			</section>
 
 			<!-- Managing R -->
-			<section data-menu-title="Managing R1">
+			<section data-menu-title="Managing R">
 				<section data-background-transition="zoom" data-background="#a6e22e" data-menu-title="Managing R">
 					<h1>Managing <i class="fab fa-r-project"></i></h1>
 				</section>
 				<section>
-					<h4>Use projects!</h4>
-					R setup => use projects to get clean new session
-					Remove remember history, cf. notebooks
-					<h3>Don't start scripts with</h3>
-
-				</section>
+						<ul>
+							<li>Use (RStudio) projects.</li>
+							<li class="fragment">Never use <code>setwd()!</code></li>
+							<li class="fragment"><span class="emphasized">Do</span> use the <code>here</code> package and create paths relative to the top
+								level of your project.</li>
+							<small>
+								<li class="fragment">See: <a
+										href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script" />https://www.tidyverse.org/articles/2017/12/workflow-vs-script/</a>
+									<!-- https://stackoverflow.com/questions/53433955/relative-paths-in-r-how-to-avoid-my-computer-being-set-on-fire
+									https://whattheyforgot.org/project-oriented-workflow.html
+									http://plantarum.ca/code/setwd/
+									https://malco.io/2018/11/05/why-should-i-use-the-here-package/ -->
+								</li>
+							</small>
+						</ul>
+						<pre class="fragment">
+							<code class="r" data-trim data-noescape>
+								> here("data","raw","input.dat")
+								[1] "/home/pieter/projects/dot-project-directory/data/raw/input.dat"
+							</code>
+						</pre>
+					</section>
+					<section>
+						<p>Don't preserve your workspace, since previously stored variables can
+							silently mess up your results.</p>
+						<img width="45%"
+							data-src="assets/rstudio-workspace.png" alt="rstudio-workspace">
+					</section>
 				<section>
 					<h4>For package management, check out <code>renv</code>. <small>(or <code>packrat</code>)</small>
 					</h4>
+					<br>
 					<p class="fragment">Don't install packages via your system package manager, only use
 						<code>install.packages()</code>.</p>
 					<p class="fragment"><code>conda</code> can also manage R environments, but might not act nicely with
@@ -709,30 +732,39 @@
 					</p>
 				</section>
 				<section>
-					<code>renv</code>: if things go awry, install package into the base environment, purge project renv
-					files and start over.
+					<code>renv</code>: if things go awry, install package into the base environment, purge the renv
+					files (`renv` dir, `renv.lock` and a line in `.RProfile`) and start over.
 				</section>
 				<section>
-					`R_LIBS_USER="~/lib/R/library"`
-					default path sometimes requires sudo rights (system-wide install)
-					<!--
-						`R_LIBS_USER="~/lib/R/library"`
+					<p>
+						The default R installation directory might not be writeable for a user, so a user library should
+						be created (rather than installing packages as an admin).
+					</p>
 
-						The install.packages() and update.packages() functions will then work in directory ~/lib/R/library.
+					<pre>
+						<code>
+							install.packages('random')
 
-					**NOTE**: http://kbroman.org/pkg_primer/pages/build.html says the file should contain `R_LIBS=` instead.
+							Installing package into ‘/usr/local/lib/R/site-library’
+							(as ‘lib’ is unspecified)
+							Warning in install.packages("random") :
+							'lib = "/usr/local/lib/R/site-library"' is not writable
 
-					https://community.rstudio.com/t/help-regarding-package-installation-renviron-rprofile-r-libs-r-libs-site-and-r-libs-user-oh-my/13888/8
+							Would you like to use a personal library instead?  (y/n) y
 
-					https://stackoverflow.com/questions/37970555/controversy-of-r-libs-user-path
-					The R_LIBS_USER variable is optional and, if set, will be prepended to the library path (which is displayed by .libPaths()).
-					Check via: `Sys.getenv("R_LIBS_USER")`
+							Would you like to create a personal library
+							~/R/pc-linux-gnu-library/3.2
+							to install packages into?  (y/n) y
+						</code>
+					</pre>
 
-					https://community.rstudio.com/t/using-r-and-conda/10960/3
-					https://community.rstudio.com/t/why-not-r-via-conda/9438/4
-					- Using conda, you can force in R location via `install.packages("png", "/home/user/anaconda3/lib/R/library")` https://stackoverflow.com/questions/34705917/conda-how-to-install-r-packages-that-are-not-available-in-r-essentials
-					- `install.packages()` is equivalent to `R CMD INSTALL <PACKAGES…>`, but beware lib location (requires sudo to access default `/usr/local/lib`) https://askubuntu.com/a/931551 also see http://kbroman.org/pkg_primer/pages/build.html
-					- Packages are stored in https://stackoverflow.com/questions/2615128/where-does-r-store-packages -->
+					<p>You can also set this in a file:</p>
+
+					<pre>
+						<code>
+							echo R_LIBS_USER="~/lib/R/library" > .Renviron
+						</code>
+					</pre>
 				</section>
 			</section>
 
@@ -772,6 +804,15 @@
 								href="https://yihui.name/en/2018/09/notebook-war/#summary">https://yihui.name/en/2018/09/notebook-war/#summary</a>
 						</li>
 					</ul>
+				</section>
+				<section data-transition="slide none">
+					<img width="100%" data-src="assets/notebook1.png">
+				</section>
+				<section data-transition="none side">
+					<img width="100%" data-src="assets/notebook2.png">
+				</section>
+				<section data-transition="none side">
+					<img width="100%" data-src="assets/notebook3.png">
 				</section>
 				<section>
 					<p>As a side note, everyone who uses Jupyter Notebooks should check out its successor JupyterLab and
@@ -892,37 +933,6 @@
 							<code>nextflow</code>, discussion here: <a
 								href="https://www.biostars.org/p/258436/">https://www.biostars.org/p/258436/</a>)</small>
 					</p>
-				</section>
-				<section>
-					<h4>R-specific pointers</h4>
-					<ul>
-						<li>Use (RStudio) projects.</li>
-						<li class="fragment">Never use <code>setwd()!</code></li>
-						<li class="fragment">Do use the <code>here</code> package and create paths relative to the top
-							level of your project.</li>
-						<small>
-							<li class="fragment">See: <a
-									href="https://www.tidyverse.org/articles/2017/12/workflow-vs-script" />https://www.tidyverse.org/articles/2017/12/workflow-vs-script/</a>
-								<!-- https://stackoverflow.com/questions/53433955/relative-paths-in-r-how-to-avoid-my-computer-being-set-on-fire
-								https://whattheyforgot.org/project-oriented-workflow.html
-								http://plantarum.ca/code/setwd/
-								https://malco.io/2018/11/05/why-should-i-use-the-here-package/ -->
-							</li>
-						</small>
-					</ul>
-					<pre>
-						<code class="r" data-trim data-noescape>
-							> here("data","raw","input.dat")
-							[1] "/home/pieter/projects/dot-project-directory/data/raw/input.dat"
-						</code>
-					</pre>
-				</section>
-				<section>
-					<h4>R-specific pointers</h4>
-					<p class="fragment">Don't preserve your workspace, since previously stored variables can
-						silently mess up your results.</p>
-					<img class="fragment" width="45%" class="fragment current-visible"
-						data-src="assets/rstudio-workspace.png" alt="rstudio-workspace">
 				</section>
 				<section style="font-size: 0.8em">
 					<p>Python imports are weird.</p>
